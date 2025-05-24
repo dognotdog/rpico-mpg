@@ -8,6 +8,8 @@
 #include "inc_decoder_pulse.pio.h"
 #include "incremental_mpg.pio.h"
 
+#include "mpg_config.h"
+
 #ifndef LED_DELAY_MS
 #define LED_DELAY_MS 250
 #endif
@@ -16,11 +18,6 @@
 #warning blink_simple example requires a board with a regular LED
 #endif
 
-#define PIO_INA_GPIO 26
-#define PIO_INB_GPIO 27
-
-#define PIO_STEP_GPIO 21
-#define PIO_DIR_GPIO 22
 
 void inc_decoder_pulse_program_init(PIO pio, uint sm, uint offset, uint pin) {
     // 2 input pins
@@ -183,8 +180,7 @@ int main() {
         //     pico_set_led(led++ % 2);
         // }
         else {
-            printf("Got nothin!\n");
-            printf("pio0=%p pio1=%p\n", pio[0], pio[1]);
+            printf("MPG running!\n");
             pico_set_led(led++ % 2);
             sleep_ms(LED_DELAY_MS);
         }
