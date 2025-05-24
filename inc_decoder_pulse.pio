@@ -1,0 +1,64 @@
+.pio_version 1 // RP2350
+.program inc_decoder_pulse
+.origin 0
+
+; simple counter to check FIFO workings to CPU
+; jmp x-- jnext
+; jnext:
+; mov isr, x
+; push noblock
+
+; read pins and push
+; mov isr, pins
+; mov x, isr
+; jmp !x theend
+; push noblock
+; theend:
+; nop
+; .wrap
+
+jmp read
+jmp decr
+jmp incr
+jmp read
+
+jmp incr
+jmp read
+jmp read
+jmp decr
+
+jmp decr
+jmp read
+jmp read
+jmp read
+
+jmp read
+jmp incr
+jmp decr
+jmp read
+
+decr:
+mov x, isr
+set y, 2
+mov isr, y
+push noblock
+mov isr, x
+
+read:
+.wrap_target
+mov osr, isr
+; set x=0 and mov(isr,x) or push noblock to clear isr
+set x, 0
+mov isr, x
+; push noblock
+out isr, 2
+in pins, 2
+mov pc, isr
+
+incr:
+mov x, isr
+set y, 1
+mov isr, y
+push noblock
+mov isr, x
+.wrap

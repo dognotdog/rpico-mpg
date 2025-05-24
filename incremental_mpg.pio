@@ -1,0 +1,55 @@
+.pio_version 1 // RP2350
+.program incremental_mpg
+.origin 0
+
+; simple forwarding for testing
+; pull block
+; mov isr, osr
+; push noblock
+
+
+; first four are jump targets based on OSR
+jmp zro
+jmp dec
+jmp inc
+jmp three
+
+read:
+.wrap_target
+pull block ; read into OSR
+set y, 0
+mov y, osr
+; mov x, y
+mov isr, y
+; push noblock
+; set x, 1
+; mov pc, x
+mov pc, y
+
+inc:
+; set y, 5
+; mov isr, y
+; push noblock
+set pins, 2 [4]
+set pins, 3
+jmp read
+
+dec:
+; set y, 6
+; mov isr, y
+; push noblock
+set pins, 0 [4]
+set pins, 1
+jmp read
+
+zro:
+; set y, 4
+; mov isr, y
+; push noblock
+jmp read
+
+three:
+; set y, 7
+; mov isr, y
+; push noblock
+jmp read
