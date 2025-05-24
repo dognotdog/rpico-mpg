@@ -17,10 +17,10 @@ jmp three
 read:
 .wrap_target
 pull block ; read into OSR
-set y, 0
+; set y, 0
 mov y, osr
 ; mov x, y
-mov isr, y
+; mov isr, y
 ; push noblock
 ; set x, 1
 ; mov pc, x

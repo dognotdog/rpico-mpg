@@ -30,7 +30,7 @@ jmp decr
 jmp decr
 jmp read
 jmp read
-jmp read
+jmp incr
 
 jmp read
 jmp incr

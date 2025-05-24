@@ -104,12 +104,13 @@ static void init_dma(PIO p0, uint sm0, PIO p1, uint sm1) {
     channel_config_set_irq_quiet(&c0, true);
     // channel_config_set_irq_quiet(&c1, true);
 
+    // the RP2350 has an "ENDLESS" DMA mode so that a single DMA channel can be used for continous transfers, whereas one had to chain two DMA channels on the RP2040.
     dma_channel_configure(
         dma[0], 
         &c0,
         &p1->txf[sm1],        // Destination pointer
         &p0->rxf[sm0],      // Source pointer
-        0xF0000000 | 4, // endless
+        0xF0000000 | 4, // endless via high 4 bits being 0xF
         true                // Start immediately
     );
     // dma_channel_configure(dma1, &c1,
@@ -168,6 +169,7 @@ int main() {
     uint led = 0;
 
     while (true) {
+        // debugging the fifos
         uint rxlevel1 = pio_sm_get_rx_fifo_level(pio[1], sm[1]);
         if (rxlevel1) {
             uint32_t received_val = pio_sm_get(pio[1], sm[1]);
